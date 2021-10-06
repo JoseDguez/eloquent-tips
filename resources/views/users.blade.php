@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Laravel</title>
+
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+</head>
+<body class="antialiased bg-gray-100">
+<div class="p-10">
+    <div class="flex flex-col">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 space-y-5 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+
+                <form method="GET" action="#" id="search-form">
+                    <div class="grid grid-cols-12 gap-6">
+                        <div class="col-span-3 sm:col-span-3">
+                            <input type="text" name="name" placeholder="Nombre..." value="{{ request('name') }}" autocomplete="off"
+                                   class="bg-white h-10 px-5 pr-10 rounded text-sm focus:outline-none w-full"/>
+                        </div>
+                        <div class="col-span-3 sm:col-span-3">
+                            <input type="text" name="company" placeholder="Empresa..." value="{{ request('company') }}" autocomplete="off"
+                                   class="bg-white h-10 px-5 pr-10 rounded text-sm focus:outline-none w-full ml-5"/>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nombre
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Email
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Empresa
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($users as $user)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $user->first_name }} {{ $user->last_name }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ $user->email }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $user->company->name }}
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                {!! $users->appends(request()->query())->links() !!}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let form = document.querySelector('#search-form');
+
+    document.querySelector('input[name="name"]').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            form.submit();
+        }
+    });
+
+    document.querySelector('input[name="company"]').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            form.submit();
+        }
+    });
+</script>
+</body>
+</html>
