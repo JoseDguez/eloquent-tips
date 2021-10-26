@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeSearch($query, $filter)
+    {
+        $query->when($filter ?? false, function ($query, $name) {
+            $name = '%' . preg_replace('/[^A-Za-z0-9]/', '', $name) . '%';
+            $query->where('name_normalized','LIKE',$name);
+        });
+    }
 }
